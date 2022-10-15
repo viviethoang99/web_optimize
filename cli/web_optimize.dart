@@ -265,7 +265,7 @@ class WebOptimizeCommand extends Command<void> {
     }
     '''
         .replaceAll(
-            RegExp('var assetBase = null;'), 'var assetBase = "$assetBase;"')
+            RegExp('var assetBase = null;'), 'var assetBase = "$assetBase"')
         .replaceAll(
           RegExp('var jsManifest = null;'),
           'var jsManifest = ${jsonEncode(jsManifest)};',
