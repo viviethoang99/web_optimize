@@ -63,18 +63,20 @@ _flutter.loader = null;
       delete this.didCreateEngineInitializer;
     }
 
-    _downloadJs(index){
+    _downloadSplitJs(url){
       return new Promise((resolve, reject)=>{
         const xhr = new XMLHttpRequest();
         xhr.open("get", url, true);
-        xhr.onreadystatechange = function(){
+        xhr.onreadystatechange = () => {
             if (xhr.readyState == 4) {
                 if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304){
                   resolve(xhr.responseText);
                 }
             }
         };
-        xhr.send(null);
+        xhr.onerror = reject;
+        xhr.ontimeout = reject;
+        xhr.send();
       })
     }
 
@@ -83,7 +85,7 @@ _flutter.loader = null;
     _loadEntrypoint(entrypointUrl) {
       if (!this._scriptLoaded) {
         this._scriptLoaded = new Promise((resolve, reject) => {
-          const promises = Array.from({ length: 6 }, (_, index) => this._downloadJs(index))
+          const promises = Object.keys(jsManifest).filter(key => /main.dart_\d.js/g.test(key)).sort().map(key => `${assetBase}${jsManifest[key]}`).map(this._downloadSplitJs);
           Promise.all(promises).then((values)=>{
             let completeMainJs = values.join('');
             var script = document.createElement("script");
