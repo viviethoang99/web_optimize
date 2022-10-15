@@ -52,7 +52,7 @@ class WebOptimizeCommand extends Command<void> {
 
     _hashAssets();
 
-    _cdnAssets();
+    // _cdnAssets();
 
     _injectToHtml();
 
