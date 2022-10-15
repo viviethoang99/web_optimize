@@ -84,7 +84,10 @@ _flutter.loader = null;
     _loadEntrypoint(entrypointUrl) {
       if (!this._scriptLoaded) {
         this._scriptLoaded = new Promise((resolve, reject) => {
-          const promises = Object.keys(jsManifest).filter(key => /main.dart_\d.js/g.test(key)).sort().map(key => `${assetBase}${jsManifest[key]}`).map(this._downloadSplitJs);
+          const promises = Object.keys(jsManifest).filter(key => /main.dart_\d.js/g.test(key)).sort().map(key => {
+            console.log(`=======> ${assetBase}${jsManifest[key]}`);
+            return `${assetBase}${jsManifest[key]}`
+          }).map(this._downloadSplitJs);
           Promise.all(promises).then((values)=>{
             const contents = values.join("");
             const script = document.createElement("script");
