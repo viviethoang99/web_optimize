@@ -76,7 +76,7 @@ _flutter.loader = null;
         };
         xhr.onerror = reject;
         xhr.ontimeout = reject;
-        xhr.send();
+        xhr.send(null);
       })
     }
 
