@@ -34,7 +34,7 @@ class WebOptimizeCommand extends Command<void> {
   Map<String, String> jsManifest = <String, String>{};
 
   /// 资源路径，一般是cdn地址
-  String get assetBase => '';
+  String get assetBase => argResults!['assetBase'];
 
   @override
   FutureOr<void> run() async {
