@@ -255,8 +255,8 @@ class WebOptimizeCommand extends Command<void> {
       } catch (e) {
         src = `${jsManifest[uri.substring(1)]}`;
       }
-            console.info('===>1');
-
+      console.info('===>${src}');
+      console.info('===>${src}');
       script = document.createElement("script");
       script.type = "text/javascript";
       script.src = src;
