@@ -33,8 +33,8 @@ class WebOptimizeCommand extends Command<void> {
   /// 哈希化后的js文件
   Map<String, String> jsManifest = <String, String>{};
 
-  /// 资源路径，一般是cdn地址
-  String get assetBase => argResults!['assetBase'];
+  // /// 资源路径，一般是cdn地址
+  // String get assetBase => argResults!['assetBase'];
 
   @override
   FutureOr<void> run() async {
@@ -219,26 +219,26 @@ class WebOptimizeCommand extends Command<void> {
     final Document document = parse(contents);
 
     /// 注入meta标签
-    final List<Element> metas = document.getElementsByTagName('meta');
-    final Element? headElement = document.head;
-    if (headElement != null) {
-      final Element meta = Element.tag('meta');
-      meta.attributes['name'] = 'assetBase';
-      meta.attributes['content'] = assetBase;
+    // final List<Element> metas = document.getElementsByTagName('meta');
+    // final Element? headElement = document.head;
+    // if (headElement != null) {
+    //   final Element meta = Element.tag('meta');
+    //   meta.attributes['name'] = 'assetBase';
+    //   meta.attributes['content'] = assetBase;
 
-      if (metas.isNotEmpty) {
-        final Element lastMeta = metas.last;
-        lastMeta.append(Text('\n'));
-        lastMeta.append(Comment('content值必须以 / 结尾'));
-        lastMeta.append(Text('\n'));
-        lastMeta.append(meta);
-      } else {
-        headElement.append(Comment('content值必须以 / 结尾'));
-        headElement.append(Text('\n'));
-        headElement.append(meta);
-        headElement.append(Text('\n'));
-      }
-    }
+    //   if (metas.isNotEmpty) {
+    //     final Element lastMeta = metas.last;
+    //     lastMeta.append(Text('\n'));
+    //     lastMeta.append(Comment('content值必须以 / 结尾'));
+    //     lastMeta.append(Text('\n'));
+    //     lastMeta.append(meta);
+    //   } else {
+    //     headElement.append(Comment('content值必须以 / 结尾'));
+    //     headElement.append(Text('\n'));
+    //     headElement.append(meta);
+    //     headElement.append(Text('\n'));
+    //   }
+    // }
 
     /// 注入script
     String dartDeferredLibraryLoader = r'''
@@ -264,8 +264,8 @@ class WebOptimizeCommand extends Command<void> {
       document.body.appendChild(script);
     }
     '''
-        .replaceAll(
-            RegExp('var assetBase = null;'), 'var assetBase = "$assetBase;"')
+        // .replaceAll(
+        //     RegExp('var assetBase = null;'), 'var assetBase = "$assetBase;"')
         .replaceAll(
           RegExp('var jsManifest = null;'),
           'var jsManifest = ${jsonEncode(jsManifest)};',
