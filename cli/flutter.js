@@ -63,58 +63,37 @@ _flutter.loader = null;
       delete this.didCreateEngineInitializer;
     }
 
-    _downloadSplitJs(url){
+    _downloadJs(index){
       return new Promise((resolve, reject)=>{
         const xhr = new XMLHttpRequest();
         xhr.open("get", url, true);
-        xhr.onreadystatechange = () => {
+        xhr.onreadystatechange = function(){
             if (xhr.readyState == 4) {
                 if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304){
                   resolve(xhr.responseText);
                 }
             }
         };
-        xhr.onerror = reject;
-        xhr.ontimeout = reject;
         xhr.send(null);
       })
     }
 
+
     _retryCount = 0;
     _loadEntrypoint(entrypointUrl) {
-      console.log(`1 =======> ${assetBase}`);
       if (!this._scriptLoaded) {
         this._scriptLoaded = new Promise((resolve, reject) => {
-          const promises = Object.keys(jsManifest).filter(key => /main.dart_\d.js/g.test(key)).sort().map(key => {
-            console.log(`=======> ${assetBase}${jsManifest[key]}`);
-            return `${assetBase}${jsManifest[key]}`
-          }).map(this._downloadSplitJs);
+          const promises = Array.from({ length: 6 }, (_, index) => this._downloadJs(index))
           Promise.all(promises).then((values)=>{
-            const contents = values.join("");
-            const script = document.createElement("script");
-            script.text = contents;
+            let completeMainJs = values.join('');
+            var script = document.createElement("script");
+            script.text = completeMainJs;
             script.type = "application/javascript";
 
             this._didCreateEngineInitializerResolve = resolve;
             script.addEventListener("error", reject);
             document.body.appendChild(script);
-          }).catch(()=>{
-            // console.error("main.dart.js download fail，refresh and try again");
-
-            // retry again
-            if (++this._retryCount > 3) {
-              const element = document.createElement("a");
-              element.href = "javascript:location.reload()";
-              element.style.textAlign = "center";
-              element.style.margin = "50px auto";
-              element.style.display = "block";
-              element.style.color = "#f89800";
-              element.innerText = "加载失败，点击重新请求页面";
-              document.body.appendChild(a);
-            } else {
-              this._loadEntrypoint(entrypointUrl);
-            }
-          });
+          })
 
 //          let scriptTag = document.createElement("script");
 //          scriptTag.src = entrypointUrl;
@@ -139,16 +118,12 @@ _flutter.loader = null;
         } else {
           console.debug("Service worker already active.");
         }
-              console.log(`_waitForServiceWorkerActivation =======> ${assetBase}`);
-
         return this._loadEntrypoint(entrypointUrl);
       }
       return new Promise((resolve, _) => {
         serviceWorker.addEventListener("statechange", () => {
           if (serviceWorker.state == "activated") {
             console.debug("Installed new service worker.");
-                          console.log(`_waitForServiceWorkerActivation1 =======> ${assetBase}`);
-
             resolve(this._loadEntrypoint(entrypointUrl));
           }
         });
@@ -158,8 +133,6 @@ _flutter.loader = null;
     _loadWithServiceWorker(entrypointUrl, serviceWorkerOptions) {
       if (!("serviceWorker" in navigator) || serviceWorkerOptions == null) {
         console.warn("Service worker not supported (or configured). Falling back to plain <script> tag.", serviceWorkerOptions);
-                      console.log(`_loadWithServiceWorker =======> ${assetBase}`);
-
         return this._loadEntrypoint(entrypointUrl);
       }
 
