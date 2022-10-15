@@ -255,13 +255,18 @@ class WebOptimizeCommand extends Command<void> {
       } catch (e) {
         src = `${jsManifest[uri.substring(1)]}`;
       }
-      
+            console.info('===>1');
+
       script = document.createElement("script");
       script.type = "text/javascript";
       script.src = src;
       script.addEventListener("load", successCallback, false);
+            console.info('===>2');
+
       script.addEventListener("error", errorCallback, false);
       document.body.appendChild(script);
+                  console.info('===>3');
+
     }
     '''
         .replaceAll(
