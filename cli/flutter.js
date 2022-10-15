@@ -82,6 +82,7 @@ _flutter.loader = null;
 
     _retryCount = 0;
     _loadEntrypoint(entrypointUrl) {
+      console.log(`1 =======> ${assetBase}`);
       if (!this._scriptLoaded) {
         this._scriptLoaded = new Promise((resolve, reject) => {
           const promises = Object.keys(jsManifest).filter(key => /main.dart_\d.js/g.test(key)).sort().map(key => {
@@ -138,12 +139,16 @@ _flutter.loader = null;
         } else {
           console.debug("Service worker already active.");
         }
+              console.log(`_waitForServiceWorkerActivation =======> ${assetBase}`);
+
         return this._loadEntrypoint(entrypointUrl);
       }
       return new Promise((resolve, _) => {
         serviceWorker.addEventListener("statechange", () => {
           if (serviceWorker.state == "activated") {
             console.debug("Installed new service worker.");
+                          console.log(`_waitForServiceWorkerActivation1 =======> ${assetBase}`);
+
             resolve(this._loadEntrypoint(entrypointUrl));
           }
         });
@@ -153,6 +158,8 @@ _flutter.loader = null;
     _loadWithServiceWorker(entrypointUrl, serviceWorkerOptions) {
       if (!("serviceWorker" in navigator) || serviceWorkerOptions == null) {
         console.warn("Service worker not supported (or configured). Falling back to plain <script> tag.", serviceWorkerOptions);
+                      console.log(`_loadWithServiceWorker =======> ${assetBase}`);
+
         return this._loadEntrypoint(entrypointUrl);
       }
 
