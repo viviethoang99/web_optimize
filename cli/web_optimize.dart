@@ -251,9 +251,9 @@ class WebOptimizeCommand extends Command<void> {
       let src;
       try {
         const url = new URL(uri);
-        src = `${assetBase}${jsManifest[url.pathname.substring(1)]}`;
+        src = `${jsManifest[url.pathname.substring(1)]}`;
       } catch (e) {
-        src = `${assetBase}${jsManifest[uri.substring(1)]}`;
+        src = `${jsManifest[uri.substring(1)]}`;
       }
       
       script = document.createElement("script");
