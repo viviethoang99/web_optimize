@@ -13,5 +13,5 @@ jobs:
       - uses: subosito/flutter-action@v1
       - uses: viviethoang99/flutter-gh-pages@v2
         with:
-          baseHref: /test_app/
-          assetBase: viviethoang99.github.io/test_app/
+          baseHref: /web_optimize/
+          assetBase: viviethoang99.github.io/web_optimize/
