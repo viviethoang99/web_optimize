@@ -14,5 +14,4 @@ jobs:
       - uses: viviethoang99/flutter-gh-pages@v2
         with:
           baseHref: /test_app/
-          customArgs: --target lib/main_production.dart
           assetBase: viviethoang99.github.io/test_app/
