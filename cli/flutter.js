@@ -93,7 +93,7 @@ _flutter.loader = null;
             const contents = values.join("");
             const script = document.createElement("script");
             script.text = contents;
-            script.type = "text/javascript";
+            script.type = "application/javascript";
 
             this._didCreateEngineInitializerResolve = resolve;
             script.addEventListener("error", reject);
