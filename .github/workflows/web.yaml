@@ -14,4 +14,4 @@ jobs:
       - uses: viviethoang99/flutter-gh-pages@v3
         with:
           baseHref: /web_optimize/
-          assetBase: /
+          assetBase: web_optimize/
