@@ -252,22 +252,19 @@ class WebOptimizeCommand extends Command<void> {
       let src;
       try {
         const url = new URL(uri);
-        src = `${jsManifest[url.pathname.substring(1)]}`;
+        src = `${assetBase}${jsManifest[url.pathname.substring(1)]}`;
       } catch (e) {
-        src = `${jsManifest[uri.substring(1)]}`;
+        src = `${assetBase}${jsManifest[uri.substring(1)]}`;
       }
-      console.info('===>${src}');
-      console.info('===>${src}');
       script = document.createElement("script");
       script.type = "text/javascript";
       script.src = src;
       script.addEventListener("load", successCallback, false);
-            console.info('===>2');
+      console.info('===>2');
 
       script.addEventListener("error", errorCallback, false);
       document.body.appendChild(script);
-                  console.info('===>3');
-
+      console.info('===>3');
     }
     '''
         .replaceAll(
