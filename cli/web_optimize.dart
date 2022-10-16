@@ -53,9 +53,9 @@ class WebOptimizeCommand extends Command<void> {
 
     _hashAssets();
 
-    // _cdnAssets();
+    _cdnAssets();
 
-    // _injectToHtml();
+    _injectToHtml();
 
     _replaceFlutterJS();
   }
