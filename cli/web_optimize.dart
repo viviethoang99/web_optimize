@@ -53,9 +53,9 @@ class WebOptimizeCommand extends Command<void> {
 
     _hashAssets();
 
-    _cdnAssets();
+    // _cdnAssets();
 
-    _injectToHtml();
+    // _injectToHtml();
 
     _replaceFlutterJS();
   }
@@ -170,6 +170,7 @@ class WebOptimizeCommand extends Command<void> {
         final String filename = md5(file);
         hashFiles[file.path] = path.join(path.dirname(file.path), filename);
         jsManifest[path.basename(file.path)] = filename;
+        print(filename);
       }
 
       if (file.path.contains('$webArtifactsOutputDir/assets')) {
